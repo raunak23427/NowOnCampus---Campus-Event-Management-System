@@ -4,8 +4,304 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Events - NowOnCampus</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/home.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 16px rgba(99,102,241,0.07);
+        }
+        .nav.container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 18px 32px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            gap: 10px;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-link {
+            position: relative;
+            color: #3730a3;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 6px 0;
+            transition: color 0.2s;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #6366f1;
+        }
+        .nav-link::after {
+            content: "";
+            display: block;
+            height: 2px;
+            width: 0;
+            background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+            transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-icon {
+            margin-right: 7px;
+            font-size: 1.1rem;
+            vertical-align: middle;
+        }
+        .hero {
+            background: url('../html/iiitd.png') center/cover no-repeat;
+            position: relative;
+            color: #fff;
+            padding: 80px 0 60px 0;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* dark overlay for readability */
+            z-index: 1;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            color: #ffffff !important;  /* force pure white */
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.35); /* extra clarity */
+            animation: fadeInUp 1s cubic-bezier(.23,1,.32,1) 0.1s both;
+        }
+        .warning-message {
+            background: rgba(0, 0, 0, 0.28); /* darker for contrast */
+            color: #fff !important;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: fadeInUp 1s cubic-bezier(.23,1,.32,1) 0.3s both;
+        }
+        .warning-message,
+.warning-message .warning-icon {
+    color: #fff !important;
+}
+        .hero-description {
+            color: #fff;
+            font-size: 1.35rem;
+            font-family: 'Inter', Arial, sans-serif;
+            margin-bottom: 28px;
+            text-shadow: 0 1px 6px rgba(44,62,80,0.18);
+            font-weight: 500;
+            animation: fadeInUp 1s cubic-bezier(.23,1,.32,1) 0.5s both;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+            color: #fff;
+            border: none;
+            padding: 16px 38px;
+            border-radius: 30px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            outline: none;
+            animation: fadeInUp 1s cubic-bezier(.23,1,.32,1) 0.7s both;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+            transform: translateY(-2px) scale(1.07);
+            box-shadow: 0 8px 32px rgba(99,102,241,0.25);
+        }
+        .btn-arrow {
+            margin-left: 10px;
+            font-size: 1.1rem;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .categories-grid, .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-top: 32px;
+        }
+        .category-card, .feature-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(99,102,241,0.09);
+            padding: 32px 18px;
+            text-align: center;
+            transition: box-shadow 0.3s, transform 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .category-card:hover, .feature-card:hover {
+            box-shadow: 0 8px 32px rgba(99,102,241,0.18);
+            transform: translateY(-6px) scale(1.04);
+        }
+        .category-icon, .feature-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 2rem;
+            margin-bottom: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+        }
+        .category-icon.orange { background: linear-gradient(135deg, #fbbf24 0%, #f59e42 100%); color: #fff; }
+        .category-icon.blue { background: linear-gradient(135deg, #60a5fa 0%, #6366f1 100%); color: #fff; }
+        .category-icon.purple { background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%); color: #fff; }
+        .category-icon.green { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); color: #fff; }
+        .feature-icon.blue { background: linear-gradient(135deg, #60a5fa 0%, #6366f1 100%); color: #fff; }
+        .feature-icon.green { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); color: #fff; }
+        .feature-icon.purple { background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%); color: #fff; }
+        .category-title, .feature-title {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #3730a3;
+        }
+        .category-description, .feature-description {
+            font-size: 1rem;
+            color: #374151;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        .footer {
+            background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+            color: #fff;
+            padding: 48px 0 0 0;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        .footer-links {
+            display: flex;
+            gap: 48px;
+            margin-top: 24px;
+        }
+        .footer-column {
+            min-width: 160px;
+        }
+        .footer-heading {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .footer-list {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-list li a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+        .footer-list li a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            background: rgba(0,0,0,0.07);
+            padding: 16px 0;
+            margin-top: 32px;
+            text-align: center;
+        }
+        .footer-social {
+            margin-top: 18px;
+        }
+        .footer-social a {
+            color: #fff;
+            margin: 0 8px;
+            font-size: 1.3rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            background: rgba(99,102,241,0.18);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-social a:hover {
+            opacity: 1;
+            background: linear-gradient(135deg, #f6f6f8 0%, #60a5fa 100%);
+        }
+        @media (max-width: 900px) {
+            .categories-grid, .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+        @media (max-width: 600px) {
+            .categories-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 2.1rem;
+            }
+            .nav.container {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -56,28 +352,28 @@
                 <div class="categories-grid">
                     <div class="category-card">
                         <div class="category-icon orange">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-tools"></i>
                         </div>
                         <h3 class="category-title">Workshops</h3>
                         <p class="category-description">Hands-on learning experiences</p>
                     </div>
                     <div class="category-card">
                         <div class="category-icon blue">
-                            <i class="fas fa-book-open"></i>
+                            <i class="fas fa-comments"></i>
                         </div>
                         <h3 class="category-title">Seminars</h3>
                         <p class="category-description">Expert talks & discussions</p>
                     </div>
                     <div class="category-card">
                         <div class="category-icon purple">
-                            <i class="fas fa-calendar-check"></i>
+                            <i class="fas fa-star"></i>
                         </div>
                         <h3 class="category-title">Fests</h3>
                         <p class="category-description">Cultural & tech celebrations</p>
                     </div>
                     <div class="category-card">
                         <div class="category-icon green">
-                            <i class="fas fa-map-marker-alt"></i>
+                            <i class="fas fa-user-tie"></i>
                         </div>
                         <h3 class="category-title">Career</h3>
                         <p class="category-description">Job fairs & networking</p>
@@ -125,6 +421,12 @@
                 <p class="footer-description">
                     Connecting students and campus communities through seamless event discovery and management.
                 </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
             
             <div class="footer-links">
@@ -163,6 +465,6 @@
             </div>
         </div>
     </footer>
-    <script src = "../javasccript/main.js"></script>
+    <script src="../javasccript/main.js"></script>
 </body>
 </html>

@@ -314,6 +314,11 @@ document.getElementById('create-event-form').addEventListener('submit', async fu
     const user  = JSON.parse(localStorage.getItem('user'));
     const created_by = user ? user.id : null
 
+    // Get approver emails
+    const approver1_email = document.getElementById('approver1-email').value.trim();
+    const approver2_email = document.getElementById('approver2-email').value.trim();
+    const approver3_email = document.getElementById('approver3-email').value.trim();
+
     if(!created_by){
         alert("You must be logged in to create a event");
         return;
@@ -338,7 +343,8 @@ document.getElementById('create-event-form').addEventListener('submit', async fu
                 organiser_name: organiser,
                 agenda,
                 description,
-                created_by
+                created_by,
+                approver_emails: [approver1_email, approver2_email, approver3_email]
             })
         });
         const data = await response.json();
@@ -355,6 +361,7 @@ document.getElementById('create-event-form').addEventListener('submit', async fu
         alert('Server error');
     }
 });
+
 
 // Dropdown toggle
 let currentEventFilter = 'all';
@@ -395,8 +402,14 @@ filterBtn.innerHTML = `<i class="fas fa-filter"></i> ${filterNames[currentEventF
 async function loadEvents() {
     const tbody = document.getElementById('events-tbody');
     tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.id) {
+        tbody.innerHTML = '<tr><td colspan="7">Please log in to view your created events.</td></tr>';
+        return;
+    }
+    const userId = user.id;
     try {
-        const res = await fetch('http://localhost:3000/events');
+        const res = await fetch(`http://localhost:3000/events?created_by=${userId}`);
         let events = await res.json();
         if (!Array.isArray(events)) events = [];
 
@@ -651,3 +664,4 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
         }
     });
 });
+

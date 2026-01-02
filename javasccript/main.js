@@ -39,6 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
             adminLi.innerHTML = navLink('admin_func.html', 'fas fa-cog', 'Admin');
             navMenu.appendChild(adminLi);
         }
+        else{
+            const createEventLi = document.createElement('li');
+            createEventLi.setAttribute('data-dynamic', 'create_event');
+            createEventLi.innerHTML = navLink('create_event.html', 'fas fa-create_event-check', 'Create')
+            navMenu.insertBefore(createEventLi, navMenu.children[3] || null);
+        }
 
         navSection.innerHTML = `
             <span class="welcome-text">Welcome, ${user.isAdmin ? 'Admin' : 'Student'}</span>

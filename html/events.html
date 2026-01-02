@@ -93,9 +93,21 @@
                 </div>
             </div>
         </section>
+
     </main>
 
     <script src = "../javasccript/events.js"></script>
     <script src = "../javasccript/main.js"></script>
+    <script>
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'yourgmail@gmail.com', // your Gmail address
+                pass: 'your-app-password'    // your Gmail App Password
+            }
+        });
+    </script>
+
+  
 </body>
 </html>

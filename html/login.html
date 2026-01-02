@@ -83,7 +83,7 @@
                             <span class="checkmark"></span>
                             Remember me
                         </label>
-                        <a href="#forgot-password" class="forgot-link">Forgot password?</a>
+                        <a href="#" class="forgot-link" onclick="document.getElementById('forgotModal').style.display='flex';return false;">Forgot password?</a>
                     </div>
 
                     <button type="submit" class="btn-signin">
@@ -98,6 +98,18 @@
             </div>
         </div>
     </main>
+
+    <!-- Password Reset Modal -->
+    <div id="forgotModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:32px; border-radius:12px; max-width:350px; margin:auto; text-align:center;">
+            <h2 style="margin-bottom:16px;">Reset Password</h2>
+            <input type="email" id="forgotEmail" placeholder="Enter your email" style="width:90%; padding:8px; margin-bottom:16px;">
+            <br>
+            <button id="sendResetBtn" style="padding:8px 18px; border:none; background:#6366f1; color:#fff; border-radius:6px;">Send Reset Link</button>
+            <br><br>
+            <button onclick="document.getElementById('forgotModal').style.display='none'" style="padding:6px 14px; border:none; background:#eee; color:#333; border-radius:6px;">Close</button>
+        </div>
+    </div>
 
     <script src = "../javasccript/login.js"></script>
     <script src = "../javasccript/main.js"></script>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NowOnCampus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/create_event.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                NowOnCampus
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">
+                    <i class="fas fa-home nav-icon"></i>
+                    Home
+                </a></li>
+                <li><a href="events.html" class="nav-link">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    Events
+                </a></li>
+                <li><a href="about.html" class="nav-link">
+                    <i class="fas fa-info-circle nav-icon"></i>
+                    About
+                </a></li>
+            </ul>
+            <div id="auth-nav-section"></div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Create Events</h1>
+            </div>
+
+                <!-- Event Management Tab -->
+                <div class="tab-pane active" id="events-tab">
+                    <div class="section-header" style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="dropdown" style="position: relative;">
+                            <button class="btn" id="event-filter-btn" type="button">
+                                <i class="fas fa-filter"></i> Filter Events <i class="fas fa-caret-down"></i>
+                            </button>
+                            <div id="event-filter-menu" style="display:none; position:absolute; top:110%; left:0; background:#fff; border:1px solid #ccc; border-radius:4px; min-width:160px; z-index:10;">
+                                <button class="dropdown-item" data-filter="all" style="width:100%;text-align:left;padding:8px;border:none;background:none;">All</button>
+                                <button class="dropdown-item" data-filter="upcoming" style="width:100%;text-align:left;padding:8px;border:none;background:none;">Upcoming</button>
+                                <button class="dropdown-item" data-filter="ongoing" style="width:100%;text-align:left;padding:8px;border:none;background:none;">Ongoing</button>
+                                <button class="dropdown-item" data-filter="past" style="width:100%;text-align:left;padding:8px;border:none;background:none;">Past</button>
+                                <button class="dropdown-item" data-filter="cancelled" style="width:100%;text-align:left;padding:8px;border:none;background:none;">Cancelled</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-create">
+                            <i class="fas fa-plus btn-icon"></i>
+                            Create Event
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Date & Time</th>
+                                    <th>Location</th>
+                                    <th>Capacity</th>
+                                    <th>Registrations</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-tbody">
+                                <!-- Event rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Event Create Popup Form -->
+                    <div id="create-event-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+                        <form id="create-event-form" style="background:#fff; padding:2rem; border-radius:8px; max-width:400px; margin:auto; position:relative;">
+                            <h3>Create Event</h3>
+                            <label>Event Name: <input type="text" id="event-name" required></label><br>
+                            <label>Start Date: <input type="date" id="event-start-date" required></label><br>
+                            <label>End Date: <input type="date" id="event-end-date" required></label><br>
+                            <label>Start Time: <input type="time" id="event-start-time" required></label><br>
+                            <label>End Time: <input type="time" id="event-end-time" required></label><br>
+                            <label>Venue: <input type="text" id="event-venue" required></label><br>
+                            <label>Type: <input type="text" id="event-type" placeholder="unlisted"></label><br>
+                            <label>Department: <input type="text" id="event-department"></label><br>
+                            <label>Capacity: <input type="number" id="event-capacity" required min="1"></label><br>
+                            <label>Organiser Name: <input type="text" id="event-organiser"></label><br>
+                            <label>Agenda: <input type="text" id="event-agenda"></label><br>
+                            <label>Description: <textarea id="event-description" required></textarea></label><br>
+                            <hr>
+                            <h4>Event Approvers</h4>
+                            <p style="font-size: 0.8em; color: #666;">Enter the email addresses of three users to approve this event.</p>
+                            <label>Approver 1 Email: <input type="email" id="approver1-email" required></label><br>
+                            <label>Approver 2 Email: <input type="email" id="approver2-email" required></label><br>
+                            <label>Approver 3 Email: <input type="email" id="approver3-email" required></label><br>
+                            <hr>
+                            <button class="btn" id="create-event-submit" type="submit">Create</button>
+                            <button class="btn" id="create-event-cancel" type="button">Cancel</button>
+                        </form>
+                    </div>
+                    <!-- Edit Event Popup Form -->
+                    <div id="edit-event-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+                        <form id="edit-event-form" style="background:#fff; padding:2rem; border-radius:8px; max-width:400px; margin:auto; position:relative;">
+                            <h3>Edit Event</h3>
+                            <input type="hidden" id="edit-event-id">
+                            <label>Event Name: <input type="text" id="edit-event-name" required></label><br>
+                            <label>Start Date: <input type="date" id="edit-event-start-date" required></label><br>
+                            <label>End Date: <input type="date" id="edit-event-end-date" required></label><br>
+                            <label>Start Time: <input type="time" id="edit-event-start-time" required></label><br>
+                            <label>End Time: <input type="time" id="edit-event-end-time" required></label><br>
+                            <label>Venue: <input type="text" id="edit-event-venue" required></label><br>
+                            <label>Type: <input type="text" id="edit-event-type" placeholder="unlisted"></label><br>
+                            <label>Department: <input type="text" id="edit-event-department"></label><br>
+                            <label>Capacity: <input type="number" id="edit-event-capacity" required min="1"></label><br>
+                            <label>Organiser Name: <input type="text" id="edit-event-organiser"></label><br>
+                            <label>Agenda: <input type="text" id="edit-event-agenda"></label><br>
+                            <label>Description: <textarea id="edit-event-description" required></textarea></label><br>
+                            <label>Status:
+                                <select id="edit-event-status" required>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="ongoing">Ongoing</option>
+                                    <option value="past">Past</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </label><br>
+                            <button class="btn" id="edit-event-submit" type="submit">Update</button>
+                            <button class="btn" id="edit-event-cancel" type="button">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Admin Management Tab -->
+                <div class="tab-pane" id="admins-tab">
+                    <div class="section-header">
+                        <h2 class="section-title">Admin Management</h2>
+                        <button class="btn btn-create" id="btn-create-admin">
+                            <i class="fas fa-user-plus btn-icon"></i>
+                            Create Admin
+                        </button>
+                    </div>
+                    <!-- Add a hidden form for creating new admin -->
+                    <div id="create-admin-modal" class="modal-overlay" style="display:none;">
+                        <form id="create-admin-form" class="modal-form">
+                            <h3>Create Admin</h3>
+                            <label>Name: <input type="text" id="admin-name" required></label>
+                            <label>Email: <input type="email" id="admin-email" required></label>
+                            <label>Password: <input type="password" id="admin-password" required></label>
+                            <label>Confirm: <input type="password" id="admin-confirm" required></label>
+                            <button class="btn" id="create-admin-submit" type="submit">Submit</button>
+                            <button class="btn" id="create-admin-cancel" type="button">Cancel</button>
+                        </form>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admins-tbody">
+                                <tr>
+                                    <td>Admin User</td>
+                                    <td>admin@college.edu</td>
+                                    <td><span class="role-badge admin">Admin</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="edit-admin-password-modal" class="modal-overlay" style="display:none;">
+                        <form id="edit-admin-password-form" class="modal-form">
+                            <h3>Edit Admin Password</h3>
+                            <input type="hidden" id="edit-admin-email">
+                            <label>New Password: <input type="password" id="edit-admin-password" required></label>
+                            <label>Confirm Password: <input type="password" id="edit-admin-confirm" required></label>
+                            <button class="btn" id="edit-admin-password-submit" type="submit">Update</button>
+                            <button class="btn" id="edit-admin-password-cancel" type="button">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Student Management Tab -->
+                <div class="tab-pane" id="students-tab">
+                    <div class="section-header">
+                        <h2 class="section-title">Student Management</h2>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-tbody">
+                                <tr>
+                                    <td>Student User</td>
+                                    <td>student@college.edu</td>
+                                    <td><span class="role-badge student">Student</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn edit" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Edit Student Password Modal -->
+                    <div id="edit-student-password-modal" class="modal-overlay" style="display:none;">
+                        <form id="edit-student-password-form" class="modal-form">
+                            <h3>Edit Student Password</h3>
+                            <input type="hidden" id="edit-student-email">
+                            <label>New Password: <input type="password" id="edit-student-password" required></label>
+                            <label>Confirm Password: <input type="password" id="edit-student-confirm" required></label>
+                            <button class="btn" id="edit-student-password-submit" type="submit">Update</button>
+                            <button class="btn" id="edit-student-password-cancel" type="button">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </main>
+
+    <script src ="../javasccript/studentEventCreate.js"></script>
+    <script src = "../javasccript/main.js"></script>
+</body>
+</html> 

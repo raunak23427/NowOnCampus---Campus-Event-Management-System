@@ -70,6 +70,17 @@ body {
     color: #3b82f6;
     background-color: #f1f5f9;
 }
+.nav-link:hover,
+.nav-link.active {
+    color: #6366f1; /* Purple instead of blue */
+    background-color: #f3f4f6; /* light gray highlight */
+}
+
+.nav-link.active {
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 #6366f1; /* purple underline */
+}
+
 
 .nav-icon {
     margin-right: 6px;
@@ -380,6 +391,7 @@ body {
     font-size: 1.3rem;
     font-weight: 600;
     color: #1e293b;
+;
     margin-bottom: 0.75rem;
 }
 
@@ -466,6 +478,33 @@ body {
     background: #fef2f2;
     border-color: #ef4444;
     color: #ef4444;
+}
+
+.event-rating {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #ccc;
+    cursor: pointer;
+}
+.event-rating .star-icon.checked {
+    color: #FFD700;
+}
+.event-rating .star-icon {
+    transition: color 0.2s;
+    margin-right: 2px;
+}
+.rating-value {
+    margin-left: 10px;
+    font-size: 0.95em;
+    color: #333;
+}
+.star-icon.checked {
+    color: gold;
+}
+.review-msg {
+    color: green;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
 /* Responsive Design */
