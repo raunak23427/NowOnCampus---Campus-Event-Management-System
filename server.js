@@ -9,6 +9,15 @@ const saltRounds = 10;
 const cron = require('node-cron');
 
 const app = express();
+
+// Serve static files (css, js, images) from the main folder
+app.use(express.static(__dirname));
+
+// Route to load your main page
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/events.html'); 
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -22,10 +31,14 @@ const transporter = nodemailer.createTransport({
 });
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'your_local_password',
+    database: process.env.DB_NAME || 'nowoncampus',
+    port: process.env.DB_PORT || 3306,
+    ssl: {
+        rejectUnauthorized: false 
+    }
 });
 
 db.connect(err => {
