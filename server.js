@@ -13,9 +13,10 @@ const app = express();
 // Serve static files (css, js, images) from the main folder
 app.use(express.static(__dirname));
 
-// Route to load your main page
+// route to main page
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/events.html'); 
+    // Point to the home.html inside the html folder
+    res.sendFile(__dirname + '/html/home.html'); 
 });
 
 app.use(cors());
