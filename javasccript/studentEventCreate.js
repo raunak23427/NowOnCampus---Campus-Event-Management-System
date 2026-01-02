@@ -111,7 +111,7 @@ async function handleCreateEventSubmit(e) {
     };
 
     try {
-        const response = await fetch('http://localhost:3000/createEvent', {
+        const response = await fetch('/createEvent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -143,7 +143,7 @@ async function handleApprovalAction(e) {
 
     if (confirm(`Are you sure you want to ${decision} this event?`)) {
         try {
-            const response = await fetch('http://localhost:3000/handle-approval', {
+            const response = await fetch('/handle-approval', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -204,7 +204,7 @@ async function handlePendingEventAction(e) {
     if (btn.classList.contains('cancel-pending')) {
         if (confirm('Are you sure you want to cancel this event submission? This action cannot be undone.')) {
             try {
-                const response = await fetch('http://localhost:3000/cancel-pending-event', {
+                const response = await fetch('/cancel-pending-event', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ temp_event_id })
@@ -236,7 +236,7 @@ async function handleResubmitApproversSubmit(e) {
     }
 
     try {
-        const response = await fetch('http://localhost:3000/resubmit-for-approval', {
+        const response = await fetch('/resubmit-for-approval', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ temp_event_id, new_approver_emails })
@@ -264,7 +264,7 @@ async function handleLiveEventAction(e) {
     // Handle Edit
     if (btn.classList.contains('edit')) {
         try {
-            const res = await fetch(`http://localhost:3000/event/${event_id}`);
+            const res = await fetch(`/event/${event_id}`);
             const event = await res.json();
             if (!res.ok) throw new Error(event.error || 'Failed to fetch event details');
 
@@ -294,7 +294,7 @@ async function handleLiveEventAction(e) {
     if (btn.classList.contains('delete')) {
         if (confirm('Are you sure you want to cancel this event?')) {
             try {
-                const response = await fetch('http://localhost:3000/cancelEvent', {
+                const response = await fetch('/cancelEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event_id })
@@ -336,7 +336,7 @@ async function handleEditEventSubmit(e) {
     };
 
     try {
-        const response = await fetch('http://localhost:3000/updateEvent', {
+        const response = await fetch('/updateEvent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(eventData)
@@ -363,7 +363,7 @@ async function loadMyApprovalRequests() {
     tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
 
     try {
-        const res = await fetch(`http://localhost:3000/approval-requests?approver_user_id=${user.id}`);
+        const res = await fetch(`/approval-requests?approver_user_id=${user.id}`);
         const requests = await res.json();
 
         if (requests.length === 0) {
@@ -417,7 +417,7 @@ async function loadMyPendingEvents() {
     tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
 
     try {
-        const res = await fetch(`http://localhost:3000/temporary-events?created_by=${user.id}`);
+        const res = await fetch(`/temporary-events?created_by=${user.id}`);
         const events = await res.json();
 
         if (events.length === 0) {
@@ -490,7 +490,7 @@ async function loadMyLiveEvents() {
     tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
 
     try {
-        const res = await fetch(`http://localhost:3000/events?created_by=${user.id}`);
+        const res = await fetch(`/events?created_by=${user.id}`);
         let events = await res.json();
 
         if (currentEventFilter !== 'all') {

@@ -8,7 +8,7 @@ async function loadEventDetails() {
     if (!eventId) return;
 
     try {
-        const res = await fetch(`http://localhost:3000/event/${eventId}`);
+        const res = await fetch(`/event/${eventId}`);
         if (!res.ok) {
             document.getElementById('event-title').textContent = 'Event not found';
             document.getElementById('event-description').innerHTML = '<p>Event not found.</p>';
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // 1. Pre-fill previous review if exists
     if (currentUserId && eventId) {
-        fetch(`http://localhost:3000/event/${eventId}/my-review/${currentUserId}`)
+        fetch(`/event/${eventId}/my-review/${currentUserId}`)
             .then(res => res.json())
             .then(data => {
                 if (data && data.stars) {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 msgSpan.style.color = 'red';
                 return;
             }
-            fetch('http://localhost:3000/api/rate-event', {
+            fetch('/api/rate-event', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ eventId, rating: selectedRating, userId: currentUserId })
@@ -158,8 +158,8 @@ async function fetchUserEventStatus(eventId) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const currentUserId = user.id;
     const [regRes, wishRes] = await Promise.all([
-        fetch(`http://localhost:3000/userRegisteredEvents?user_id=${currentUserId}`),
-        fetch(`http://localhost:3000/userWishlist?user_id=${currentUserId}`)
+        fetch(`/userRegisteredEvents?user_id=${currentUserId}`),
+        fetch(`/userWishlist?user_id=${currentUserId}`)
     ]);
     const registeredEvents = await regRes.json();
     const wishlistedEvents = await wishRes.json();
@@ -204,7 +204,7 @@ async function updateActionButtons(eventId) {
         const currentUserId = user.id;
         if (!isRegistered) {
             // Register
-            const res = await fetch('http://localhost:3000/registerEvent', {
+            const res = await fetch('/registerEvent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -213,7 +213,7 @@ async function updateActionButtons(eventId) {
             else alert('Registration failed');
         } else {
             // Unregister
-            const res = await fetch('http://localhost:3000/unregisterEvent', {
+            const res = await fetch('/unregisterEvent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -229,7 +229,7 @@ async function updateActionButtons(eventId) {
         const currentUserId = user.id;
         if (!isWishlisted) {
             // Add to wishlist
-            const res = await fetch('http://localhost:3000/wishlistEvent', {
+            const res = await fetch('/wishlistEvent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -238,7 +238,7 @@ async function updateActionButtons(eventId) {
             else alert('Failed to add to wishlist');
         } else {
             // Remove from wishlist
-            const res = await fetch('http://localhost:3000/unwishlistEvent', {
+            const res = await fetch('/unwishlistEvent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -255,7 +255,7 @@ const user = JSON.parse(localStorage.getItem('user') || '{}');
 const currentUserId = user.id;
 
 async function loadComments() {
-    const res = await fetch(`http://localhost:3000/api/event-comments/${eventId}`);
+    const res = await fetch(`/api/event-comments/${eventId}`);
     const comments = await res.json();
     const list = document.getElementById('comments-list');
     if (!comments.length) {
@@ -285,7 +285,7 @@ document.getElementById('submit-comment-btn').onclick = async function() {
         msg.style.color = 'red';
         return;
     }
-    const res = await fetch('http://localhost:3000/api/event-comment', {
+    const res = await fetch('/api/event-comment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ eventId, userId: currentUserId, comment })

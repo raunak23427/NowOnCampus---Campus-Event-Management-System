@@ -45,7 +45,7 @@ document.getElementById('edit-admin-password-submit').addEventListener('click', 
     }
 
     try {
-        const response = await fetch('http://localhost:3000/updateAdminPassword', {
+        const response = await fetch('/updateAdminPassword', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -71,7 +71,7 @@ document.getElementById('admins-tbody').addEventListener('click', async function
         const email = btn.getAttribute('data-email');
         if (confirm('Are you sure you want to delete this admin?')) {
             try {
-                const response = await fetch('http://localhost:3000/deleteAdmin', {
+                const response = await fetch('/deleteAdmin', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
@@ -115,7 +115,7 @@ document.getElementById('create-admin-submit').addEventListener('click', async (
     }
 
     try {
-        const response = await fetch('http://localhost:3000/createAdmin', {
+        const response = await fetch('/createAdmin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, password })
@@ -141,7 +141,7 @@ async function loadAdmins() {
     const tbody = document.getElementById('admins-tbody');
     tbody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
     try {
-        const res = await fetch('http://localhost:3000/admins');
+        const res = await fetch('/admins');
         const admins = await res.json();
         if (admins.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4">No admins found.</td></tr>';
@@ -178,7 +178,7 @@ async function loadStudents() {
     const tbody = document.getElementById('students-tbody');
     tbody.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
     try {
-        const res = await fetch('http://localhost:3000/students');
+        const res = await fetch('/students');
         const students = await res.json();
         if (students.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4">No students found.</td></tr>';
@@ -237,7 +237,7 @@ document.getElementById('edit-student-password-submit').addEventListener('click'
     }
 
     try {
-        const response = await fetch('http://localhost:3000/updateStudentPassword', {
+        const response = await fetch('/updateStudentPassword', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -263,7 +263,7 @@ document.getElementById('students-tbody').addEventListener('click', async functi
         const email = btn.getAttribute('data-email');
         if (confirm('Are you sure you want to delete this student?')) {
             try {
-                const response = await fetch('http://localhost:3000/deleteStudent', {
+                const response = await fetch('/deleteStudent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
@@ -329,7 +329,7 @@ document.getElementById('create-event-form').addEventListener('submit', async fu
     const end_datetime = `${endDate}T${endTime}`;
 
     try {
-        const response = await fetch('http://localhost:3000/createEvent', {
+        const response = await fetch('/createEvent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -409,7 +409,7 @@ async function loadEvents() {
     }
     const userId = user.id;
     try {
-        const res = await fetch(`http://localhost:3000/events?created_by=${userId}`);
+        const res = await fetch(`/events?created_by=${userId}`);
         let events = await res.json();
         if (!Array.isArray(events)) events = [];
 
@@ -505,7 +505,7 @@ document.getElementById('events-tbody').addEventListener('click', async function
         const event_id = btn.getAttribute('data-id');
         if (confirm('Are you sure you want to cancel this event?')) {
             try {
-                const response = await fetch('http://localhost:3000/cancelEvent', {
+                const response = await fetch('/cancelEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event_id })
@@ -528,7 +528,7 @@ document.getElementById('events-tbody').addEventListener('click', async function
         const event_id = btn.getAttribute('data-id');
         if (confirm('Are you sure you want to delete this event?')) {
             try {
-                const response = await fetch('http://localhost:3000/deleteEvent', {
+                const response = await fetch('/deleteEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event_id })
@@ -553,7 +553,7 @@ document.getElementById('events-tbody').addEventListener('click', async function
         const event_id = btn.getAttribute('data-id');
         // Fetch event details from backend
         try {
-            const res = await fetch(`http://localhost:3000/event/${event_id}`);
+            const res = await fetch(`/event/${event_id}`);
             const event = await res.json();
             if (!event || !event.event_id) {
                 alert('Failed to fetch event details');
@@ -607,7 +607,7 @@ document.getElementById('edit-event-form').addEventListener('submit', async func
     const end_datetime = `${end_date}T${end_time}`;
 
     try {
-        const response = await fetch('http://localhost:3000/updateEvent', {
+        const response = await fetch('/updateEvent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -642,7 +642,7 @@ document.getElementById('edit-event-form').addEventListener('submit', async func
 // Fetch and display statistics
 async function loadStats() {
     try {
-        const res = await fetch('http://localhost:3000/adminStats');
+        const res = await fetch('/adminStats');
         const stats = await res.json();
         document.getElementById('stat-total-events').textContent = stats.totalEvents ?? 0;
         document.getElementById('stat-active-events').textContent = stats.activeEvents ?? 0;

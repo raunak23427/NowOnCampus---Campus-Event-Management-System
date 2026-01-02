@@ -53,7 +53,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     }
     
     // If all validations pass, send data to server
-    fetch('http://localhost:3000/signup', {
+    fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     });
 
     // try {
-    // const response = await fetch('http://localhost:3000/signup', {
+    // const response = await fetch('/signup', {
     //     method: 'POST',
     //     headers: {
     //     'Content-Type': 'application/json'

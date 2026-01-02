@@ -54,7 +54,7 @@ async function loadEvents(filterStatus = '', searchTerm = '', wishlistedIds = []
     const grid = document.getElementById('events-grid');
     grid.innerHTML = 'Loading...';
     try {
-        const res = await fetch('http://localhost:3000/events');
+        const res = await fetch('/events');
         let events = await res.json();
         if (!Array.isArray(events) || events.length === 0) {
             grid.innerHTML = '<div>No events found.</div>';
@@ -181,7 +181,7 @@ document.getElementById('events-grid').addEventListener('click', function(e) {
             setTimeout(() => { msg.textContent = ''; }, 2000);
             return;
         }
-        fetch('http://localhost:3000/api/rate-event', {
+        fetch('/api/rate-event', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ eventId, rating: selected, userId: currentUserId })
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 star.classList.toggle('fa-regular', idx >= rating);
             });
             // Send rating to backend
-            fetch('http://localhost:3000/api/rate-event', {
+            fetch('/api/rate-event', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ eventId, rating, userId: currentUserId })
@@ -279,7 +279,7 @@ document.getElementById('events-grid').addEventListener('click', async function(
         if (!isRegistered) {
             // Register
             try {
-                const res = await fetch('http://localhost:3000/registerEvent', {
+                const res = await fetch('/registerEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -298,7 +298,7 @@ document.getElementById('events-grid').addEventListener('click', async function(
         } else {
             // Unregister
             try {
-                const res = await fetch('http://localhost:3000/unregisterEvent', {
+                const res = await fetch('/unregisterEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -326,7 +326,7 @@ document.getElementById('events-grid').addEventListener('click', async function(
         if (!isFavorited) {
             // Add to wishlist
             try {
-                const res = await fetch('http://localhost:3000/wishlistEvent', {
+                const res = await fetch('/wishlistEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -345,7 +345,7 @@ document.getElementById('events-grid').addEventListener('click', async function(
         } else {
             // Remove from wishlist
             try {
-                const res = await fetch('http://localhost:3000/unwishlistEvent', {
+                const res = await fetch('/unwishlistEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -375,7 +375,7 @@ document.getElementById('events-grid').addEventListener('click', async function(
 //for 
 async function fetchUserWishlist(userId) {
     try {
-        const res = await fetch(`http://localhost:3000/userWishlist?user_id=${userId}`);
+        const res = await fetch(`/userWishlist?user_id=${userId}`);
         if (!res.ok) return [];
         const data = await res.json();
         // data is an array of objects: [{event_id: 1}, ...]
@@ -387,7 +387,7 @@ async function fetchUserWishlist(userId) {
 
 async function fetchUserRegisteredEvents(userId) {
     try {
-        const res = await fetch(`http://localhost:3000/userRegisteredEvents?user_id=${userId}`);
+        const res = await fetch(`/userRegisteredEvents?user_id=${userId}`);
         if (!res.ok) return [];
         const data = await res.json();
         return data.map(item => String(item.event_id));
@@ -398,7 +398,7 @@ async function fetchUserRegisteredEvents(userId) {
 
 async function fetchEventReviewsSummary() {
     try {
-        const res = await fetch('http://localhost:3000/api/event-reviews-summary');
+        const res = await fetch('/api/event-reviews-summary');
         if (!res.ok) return {};
         const data = await res.json();
         // Convert to {event_id: {avg_rating, total_reviews}}
@@ -455,7 +455,7 @@ document.getElementById('submit-rating-btn').addEventListener('click', function(
     document.getElementById('modal-review-msg').style.color = 'red';
     return;
   }
-  fetch('http://localhost:3000/api/rate-event', {
+  fetch('/api/rate-event', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ eventId: currentEventId, rating: selectedRating, userId: currentUserId })
@@ -482,7 +482,7 @@ document.getElementById('close-modal').onclick = function() {
 
 // Student Events Logic
 async function loadStudentEvents() {
-    const res = await fetch('http://localhost:3000/api/student-events');
+    const res = await fetch('/api/student-events');
     const events = await res.json();
     const list = document.getElementById('student-events-list');
     if (!events.length) {
@@ -520,7 +520,7 @@ document.getElementById('submit-student-event-btn').onclick = async function() {
         msg.style.color = 'red';
         return;
     }
-    const res = await fetch('http://localhost:3000/api/student-events', {
+    const res = await fetch('/api/student-events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -549,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ...other code...
 
     async function loadStudentEvents() {
-        const res = await fetch('http://localhost:3000/api/student-events');
+        const res = await fetch('/api/student-events');
         const events = await res.json();
         const list = document.getElementById('student-events-list');
         if (!events.length) {
@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 msg.style.color = 'red';
                 return;
             }
-            const res = await fetch('http://localhost:3000/api/student-events', {
+            const res = await fetch('/api/student-events', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('year', year);
         formData.append('course', course);
         formData.append('timetable', fileInput.files[0]);
-        const res = await fetch('http://localhost:3000/api/upload-timetable', {
+        const res = await fetch('/api/upload-timetable', {
             method: 'POST',
             body: formData
         });

@@ -289,7 +289,7 @@ app.post('/createAdmin', async (req, res) => {
             </div>
             
             <div style="text-align: center; margin: 2rem 0;">
-              <a href="http://localhost:3000/html/admin_func.html" style="display: inline-block; background: #1e40af; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">
+              <a href="/html/admin_func.html" style="display: inline-block; background: #1e40af; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">
                 Access Admin Dashboard
               </a>
             </div>
@@ -314,9 +314,9 @@ app.post('/createAdmin', async (req, res) => {
               Welcome to the NowOnCampus Admin Team!
             </div>
             <div style="margin-top: 0.5rem;">
-              <a href="http://localhost:3000/html/home.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Home</a>
-              <a href="http://localhost:3000/html/admin_func.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Admin Dashboard</a>
-              <a href="http://localhost:3000/html/about.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">About</a>
+              <a href="/html/home.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Home</a>
+              <a href="/html/admin_func.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Admin Dashboard</a>
+              <a href="/html/about.html" style="color: #1e40af; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">About</a>
             </div>
           </div>
         </div>
@@ -1010,7 +1010,7 @@ app.post('/registerEvent', async (req, res) => {
             </div>
             
             <div style="text-align: center; margin: 2rem 0;">
-              <a href="http://localhost:3000/html/event_details.html?id=${event.event_id}" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">
+              <a href="/html/event_details.html?id=${event.event_id}" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">
                 View Event Details
               </a>
             </div>
@@ -1031,9 +1031,9 @@ app.post('/registerEvent', async (req, res) => {
               Thank you for using NowOnCampus!
             </div>
             <div style="margin-top: 0.5rem;">
-              <a href="http://localhost:3000/html/home.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Home</a>
-              <a href="http://localhost:3000/html/events.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Events</a>
-              <a href="http://localhost:3000/html/about.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">About</a>
+              <a href="/html/home.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Home</a>
+              <a href="/html/events.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">Events</a>
+              <a href="/html/about.html" style="color: #3b82f6; text-decoration: none; font-size: 0.85rem; margin: 0 0.5rem;">About</a>
             </div>
           </div>
         </div>

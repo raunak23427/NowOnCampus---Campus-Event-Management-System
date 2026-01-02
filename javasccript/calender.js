@@ -111,7 +111,7 @@ async function generateCalendar(month, year) {
     calendarDays.innerHTML = '';
 
     // Fetch registered events for the current user
-    const res = await fetch(`http://localhost:3000/userRegisteredEvents?user_id=${currentUserId}`);
+    const res = await fetch(`/userRegisteredEvents?user_id=${currentUserId}`);
     const events = await res.json();
 
     const eventsByDate = {};
@@ -236,7 +236,7 @@ async function loadRegisteredEvents() {
     const container = document.querySelector('#registered-tab .events-list');
     container.innerHTML = 'Loading...';
     try {
-        const res = await fetch(`http://localhost:3000/userRegisteredEvents?user_id=${currentUserId}`);
+        const res = await fetch(`/userRegisteredEvents?user_id=${currentUserId}`);
         const events = await res.json();
         if (!Array.isArray(events) || events.length === 0) {
             container.innerHTML = '<div>No registered events found.</div>';
@@ -294,7 +294,7 @@ document.querySelector('#registered-tab .events-list').addEventListener('click',
         const eventId = btn.getAttribute('data-event-id');
         if (confirm('Are you sure you want to cancel your registration for this event?')) {
             try {
-                const res = await fetch('http://localhost:3000/unregisterEvent', {
+                const res = await fetch('/unregisterEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -316,7 +316,7 @@ document.querySelector('#registered-tab .events-list').addEventListener('click',
 //Fetch the user's registered event IDs before rendering the wishlist:
 async function fetchUserRegisteredEvents(userId) {
     try {
-        const res = await fetch(`http://localhost:3000/userRegisteredEvents?user_id=${userId}`);
+        const res = await fetch(`/userRegisteredEvents?user_id=${userId}`);
         if (!res.ok) return [];
         const data = await res.json();
         // If your endpoint returns full event objects, map to IDs:
@@ -332,7 +332,7 @@ async function loadWishlistEvents() {
     try {
         // Fetch both wishlisted and registered event IDs
         const [wishlistRes, registeredIds] = await Promise.all([
-            fetch(`http://localhost:3000/userWishlist?user_id=${currentUserId}`),
+            fetch(`/userWishlist?user_id=${currentUserId}`),
             fetchUserRegisteredEvents(currentUserId)
         ]);
         const events = await wishlistRes.json();
@@ -395,7 +395,7 @@ document.querySelector('#wishlist-tab .events-list').addEventListener('click', a
         if (!isRegistered) {
             // Register
             try {
-                const res = await fetch('http://localhost:3000/registerEvent', {
+                const res = await fetch('/registerEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -412,7 +412,7 @@ document.querySelector('#wishlist-tab .events-list').addEventListener('click', a
         } else {
             // Unregister
             try {
-                const res = await fetch('http://localhost:3000/unregisterEvent', {
+                const res = await fetch('/unregisterEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -433,7 +433,7 @@ document.querySelector('#wishlist-tab .events-list').addEventListener('click', a
     if (removeBtn) {
         if (confirm('Remove this event from your wishlist?')) {
             try {
-                const res = await fetch('http://localhost:3000/unwishlistEvent', {
+                const res = await fetch('/unwishlistEvent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: currentUserId, event_id: eventId })
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         // Combine date and time
         const datetime = `${selectedDate}T${time}:00`;
-        const res = await fetch('http://localhost:3000/api/notes', {
+        const res = await fetch('/api/notes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user_id: userId, note, datetime })
@@ -533,7 +533,7 @@ async function showNotesOnCalendar() {
     // calendar day that has at least one note. We intentionally do NOT show
     // the note text inside the day cell.
     try {
-        const res = await fetch(`http://localhost:3000/api/notes/${userId}`);
+        const res = await fetch(`/api/notes/${userId}`);
         if (!res.ok) return;
         const notes = await res.json();
 
@@ -576,7 +576,7 @@ async function showNotesList() {
     const userId = user.id;
     if (!userId) return;
 
-    const res = await fetch(`http://localhost:3000/api/notes/${userId}`);
+    const res = await fetch(`/api/notes/${userId}`);
     let notes = await res.json();
 
     // Filter: only show notes with datetime >= now
@@ -609,7 +609,7 @@ async function showNotesList() {
         btn.onclick = async function() {
             const noteId = this.getAttribute('data-note-id');
             try {
-                const res = await fetch(`http://localhost:3000/api/notes/${noteId}`, {
+                const res = await fetch(`/api/notes/${noteId}`, {
                     method: 'DELETE'
                 });
                 const data = await res.json();
