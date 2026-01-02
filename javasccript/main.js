@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!user) {
         navSection.innerHTML = `
             <div class="auth-buttons">
-                <a href="login.html" class="btn btn-login">
+                <a href="/html/login.html" class="btn btn-login">
                     <i class="fas fa-sign-in-alt btn-icon"></i> Login
                 </a>
-                <a href="signup.html" class="btn btn-register">
+                <a href="/html/signup.html" class="btn btn-register">
                     <i class="fas fa-user-plus btn-icon"></i> Register
                 </a>
             </div>
